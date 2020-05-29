@@ -1,0 +1,51 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <h2>Add Pet</h2>
+
+    <a mat-flat-button color="primary" [routerLink]="['/main/pets/list']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="example-card">
+    <form [formGroup]="petsForm" (ngSubmit)="onFormSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Owner</mat-label>
+        <mat-select formControlName="owner_id">
+          <mat-option *ngFor="let o of ownerList" [value]="o.value">{{o.text}}</mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!petsForm.get('owner_id').valid && petsForm.get('owner_id').touched">Please select Owner</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Types</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let item of petTypes" [value]="item.value">{{item.text}}</mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!petsForm.get('type').valid && petsForm.get('type').touched">Please select Type</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!petsForm.get('name').valid && petsForm.get('name').touched">Please enter Name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Age</mat-label>
+        <input matInput placeholder="Age" formControlName="age" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!petsForm.get('age').valid && petsForm.get('age').touched">Please enter age</span>
+          <span *ngIf="petsForm.get('age').hasError('onlyNumberAllow')"> Age of pet contain only digit. </span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!petsForm.valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+      </div>
+    </form>
+  </mat-card>
+</div>

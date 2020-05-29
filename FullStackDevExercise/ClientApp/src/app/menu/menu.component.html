@@ -1,0 +1,18 @@
+<button mat-button [matMenuTriggerFor]="ownerMenu">Owner</button>
+<mat-menu #ownerMenu="matMenu" yPosition="above">
+  <button mat-menu-item [routerLink]="['/main/owners/list']">Owners</button>
+  <button mat-menu-item [routerLink]="['/main/owners/add']"> Add Owner</button>
+</mat-menu>
+
+<button mat-button [matMenuTriggerFor]="petsMenu">Pets</button>
+<mat-menu #petsMenu="matMenu" yPosition="below">
+  <button mat-menu-item [routerLink]="['/main/pets/list']">Pets</button>
+  <button mat-menu-item [routerLink]="['/main/pets/add']">Add Pet</button>
+</mat-menu>
+
+<button mat-button [matMenuTriggerFor]="appointmentMenu">Appointment</button>
+<mat-menu #appointmentMenu="matMenu" xPosition="before">
+  <button mat-menu-item [routerLink]="['/main/appointments/list']">Appointments</button>
+  <button mat-menu-item [routerLink]="['/main/appointments/add']">Add Appointment</button>
+</mat-menu>
+

@@ -14,17 +14,21 @@ namespace FullStackDevExercise
 
     private static void BootstrapData()
     {
-      var connectionStringBuilder = new SqliteConnectionStringBuilder();
-      connectionStringBuilder.DataSource = "./dolittle.db";
+      var connectionStringBuilder = new SqliteConnectionStringBuilder
+      {
+        DataSource = "./dolittle.db"
+      };
 
       using var connection = new SqliteConnection(connectionStringBuilder.ConnectionString);
       connection.Open();
       SetupDB(connection);
       CreateOwnersTable(connection);
       CreatePetsTable(connection);
+      CreateAppointmentsTable(connection);
     }
 
-    private static void SetupDB(SqliteConnection connection) { 
+    private static void SetupDB(SqliteConnection connection)
+    {
       var createTable = connection.CreateCommand();
       createTable.CommandText = @"  PRAGMA foreign_keys = ON;";
     }
@@ -55,6 +59,22 @@ namespace FullStackDevExercise
           , name VARCHAR(50) NOT NULL
           , age INT NOT NULL
           , FOREIGN KEY (owner_id) REFERENCES owners(id) ON DELETE CASCADE ON UPDATE NO ACTION 
+        )
+      ";
+      createTable.ExecuteNonQuery();
+    }
+
+    private static void CreateAppointmentsTable(SqliteConnection connection)
+    {
+      var createTable = connection.CreateCommand();
+      createTable.CommandText = @"
+        CREATE TABLE IF NOT EXISTS appointments
+        (
+          id INTEGER PRIMARY KEY
+          , pet_id INT NOT NULL
+          , appointmentDate datetime NOT NULL
+          , appointmentSlot VARCHAR(50) NOT NULL
+          , FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE ON UPDATE NO ACTION 
         )
       ";
       createTable.ExecuteNonQuery();
